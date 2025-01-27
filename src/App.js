@@ -1,41 +1,78 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import Navbar from './components/Navbar';
+import About from './pages/About';
+import Gallery from './pages/Gallery';
+import Contact from './pages/Contact';
 import './App.css';
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  const pageVariants = {
+    initial: { opacity: 0, x: -50 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 50 },
+  };
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={{ duration: 0.5 }}
+            >
+              <About />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/gallery"
+          element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={{ duration: 0.5 }}
+            >
+              <Gallery />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={{ duration: 0.5 }}
+            >
+              <Contact />
+            </motion.div>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="header">
-        <h1 className="title">Art de Peau - Tatouages Uniques</h1>
-        <p className="subtitle">Par [Nom de la Tatoueuse], artiste passionnée</p>
-      </header>
-      <section className="about">
-        <h2>À propos</h2>
-        <p>
-          Bienvenue dans mon univers ! Je suis spécialisée dans des designs
-          personnalisés et uniques, inspirés par la nature, l'art et vos
-          histoires. Mon objectif est de créer des œuvres qui subliment votre
-          peau tout en respectant vos envies.
-        </p>
-      </section>
-      <section className="gallery">
-        <h2>Galerie</h2>
-        <div className="image-grid">
-          <img src="/tattoo1.png" alt="Tatouage floral" />
-          <img src="/tattoo2.png" alt="Tatouage minimaliste" />
-          <img src="/tattoo3.png" alt="Tatouage animalier" />
-        </div>
-      </section>
-      <section className="contact">
-        <h2>Contact</h2>
-        <p>
-          Prête à franchir le pas ? Prenez rendez-vous ou posez vos questions !
-        </p>
-        <p>Email : <a href="mailto:tatoueuse@example.com">tatoueuse@example.com</a></p>
-        <p>Téléphone : <a href="tel:+330123456789">+33 0 12 34 56 78 9</a></p>
-      </section>
-      <footer className="footer">
-        <p>© 2025 Art de Peau - Tous droits réservés.</p>
-      </footer>
+    <div style={{ marginTop: '60px' }}>
+      <Router>
+        <Navbar />
+        <AnimatedRoutes />
+      </Router>
     </div>
   );
 }
